@@ -134,6 +134,21 @@
       display: none;
       animation: fadeIn 0.8s;
     }
+    .congrats-message {
+      background: #e0f7fa;
+      color: #00695c;
+      padding: 18px 16px;
+      border-radius: 12px;
+      margin: 26px auto 0 auto;
+      font-size: 1.13em;
+      font-weight: 600;
+      max-width: 410px;
+      width: 100%;
+      box-shadow: 0 2px 8px #00695c22;
+      text-align: center;
+      display: none;
+      animation: fadeIn 1.2s;
+    }
     .contact-box {
       background: rgba(255,255,255,0.93);
       color: #234914;
@@ -181,6 +196,9 @@
         box-shadow: 0 -2px 8px #23491433;
         z-index: 10;
         animation: none;
+      }
+      .congrats-message {
+        max-width: 98vw;
       }
     }
   </style>
@@ -247,6 +265,10 @@
       <div class="success-message" id="successMsg"></div>
     </form>
 
+    <div class="congrats-message" id="congratsMsg">
+      😊 You can work with us! We need hardworking people like you. Please call us on the given number.
+    </div>
+
     <div class="contact-box" id="contactBox">
       <div class="farm-icons">📞🚜🐂</div>
       <div><strong>Contact for Work:</strong></div>
@@ -283,6 +305,7 @@
         labelAddress: "Village/Address:",
         submitBtn: "Submit",
         success: "Registered Successfully! Thank you!",
+        congrats: "😊 You can work with us! We need hardworking people like you. Please call us on the given number.",
         error: "Please fill all fields correctly!"
       },
       hi: {
@@ -307,6 +330,7 @@
         labelAddress: "गांव/पता:",
         submitBtn: "जमा करें",
         success: "सफलतापूर्वक पंजीकृत! धन्यवाद!",
+        congrats: "😊 आप हमारे साथ काम कर सकते हैं! हमें आपके जैसे मेहनती लोग चाहिए। दिए गए नंबर पर कॉल करें।",
         error: "कृपया सभी विवरण सही से भरें!"
       },
       pa: {
@@ -331,6 +355,7 @@
         labelAddress: "ਪਿੰਡ/ਪਤਾ:",
         submitBtn: "ਜਮ੍ਹਾਂ ਕਰੋ",
         success: "ਸਫਲਤਾਪੂਰਵਕ ਦਰਜ ਕੀਤਾ ਗਿਆ! ਧੰਨਵਾਦ!",
+        congrats: "😊 ਤੁਸੀਂ ਸਾਡੇ ਨਾਲ ਕੰਮ ਕਰ ਸਕਦੇ ਹੋ! ਸਾਨੂੰ ਤੁਹਾਡੇ ਵਰਗੇ ਮਿਹਨਤੀ ਲੋਕਾਂ ਦੀ ਲੋੜ ਹੈ। ਦਿੱਤੇ ਨੰਬਰ 'ਤੇ ਕਾਲ ਕਰੋ।",
         error: "ਕਿਰਪਾ ਕਰਕੇ ਸਾਰੇ ਵੇਰਵੇ ਠੀਕ-ਠਾਕ ਭਰੋ!"
       }
     };
@@ -363,9 +388,13 @@
       document.getElementById('labelAddress').textContent = text.labelAddress;
       document.getElementById('submitBtn').textContent = text.submitBtn;
 
+      // Update congrats message language
+      document.getElementById('congratsMsg').innerHTML = text.congrats;
+
       document.getElementById('langBox').style.display = 'none';
       document.getElementById('registrationForm').style.display = 'block';
       document.getElementById('successMsg').style.display = 'none';
+      document.getElementById('congratsMsg').style.display = 'none';
     });
 
     document.getElementById('registrationForm').addEventListener('submit', function (e) {
@@ -390,6 +419,7 @@
       }
 
       showMessage('success');
+      document.getElementById('congratsMsg').style.display = 'block';
       this.reset();
     });
 
