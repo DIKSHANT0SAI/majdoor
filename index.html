@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Application for Working on Prahlad Sai's Farm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts for a friendly, modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat fixed;
+      color: #232d18;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .overlay {
+      width: 100vw;
+      min-height: 100vh;
+      background: rgba(34, 49, 20, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 10px 30px 10px;
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      border-radius: 20px;
+      padding: 32px 28px 24px 28px;
+      max-width: 410px;
+      width: 100%;
+      margin: 18px 0;
+      backdrop-filter: blur(3px);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      animation: fadeIn 1.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .farm-header {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #236d1c;
+      margin-bottom: 7px;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.3em;
+    }
+    .farm-icons {
+      font-size: 1.4em;
+      margin-bottom: 10px;
+      color: #388e3c;
+    }
+    .notice {
+      background: #fff3cd;
+      color: #856404;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 1.06em;
+      margin-bottom: 18px;
+      border: 1px solid #ffeeba;
+      text-align: left;
+      font-weight: 600;
+      box-shadow: 0 1px 6px #ffeeba55;
+    }
+    .language-select h2 {
+      margin-bottom: 18px;
+      color: #236d1c;
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    select, input, textarea {
+      font-size: 1em;
+      padding: 10px 12px;
+      border-radius: 7px;
+      border: 1.2px solid #b2b2b2;
+      margin-top: 6px;
+      margin-bottom: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      background: #f7fff0;
+      color: #234914;
+      transition: border 0.2s;
+    }
+    select:focus, input:focus, textarea:focus {
+      border-color: #388e3c;
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 45px;
+      max-height: 120px;
+    }
+    form label {
+      display: block;
+      margin-top: 8px;
+      font-weight: 600;
+      text-align: left;
+      letter-spacing: 0.3px;
+    }
+    button {
+      margin-top: 14px;
+      background: linear-gradient(90deg, #6ab04c 60%, #388e3c 100%);
+      color: white;
+      padding: 13px 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.09em;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px #23491422;
+      transition: background 0.2s, transform 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #388e3c 60%, #6ab04c 100%);
+      transform: translateY(-2px) scale(1.02);
+    }
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 13px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #23491422;
+      display: none;
+      animation: fadeIn 0.8s;
+    }
+    .contact-box {
+      background: rgba(255,255,255,0.93);
+      color: #234914;
+      padding: 20px 18px 14px 18px;
+      border-radius: 15px;
+      box-shadow: 0 0 12px #23491433;
+      font-size: 1.08em;
+      border: 1.5px solid #e2f5d9;
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      max-width: 320px;
+      width: 90vw;
+      z-index: 999;
+      animation: fadeIn 1.2s;
+    }
+    .contact-box strong {
+      color: #388e3c;
+    }
+    .contact-box .farm-icons {
+      font-size: 1.3em;
+      margin-bottom: 0;
+      color: #6ab04c;
+    }
+    .contact-box .contact-numbers {
+      margin: 7px 0 0 0;
+      font-size: 1em;
+    }
+    .contact-box .farm-address {
+      margin-top: 7px;
+      font-size: 1em;
+      color: #2d572c;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      .glass-card { max-width: 98vw; padding: 10vw 2vw; }
+      .farm-header { font-size: 1.1em; }
+      .overlay { padding: 10px 0 20px 0; }
+      .contact-box {
+        right: 4vw;
+        bottom: 4vw;
+        max-width: 96vw;
+        font-size: 1em;
+        padding: 12px 8px 10px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="glass-card language-select" id="langBox">
+      <div class="farm-header" id="farmHeader">🚜🐂🌾 Application for working on Prahlad Sai's Farm</div>
+      <div class="farm-icons">🌱🚜🐃</div>
+      <h2>Select Language / भाषा चुनें / ਭਾਸ਼ਾ ਚੁਣੋ</h2>
+      <select id="languageSelect">
+        <option value="" disabled selected>Choose / चुनें / ਚੁਣੋ</option>
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+      </select>
+    </div>
+
+    <form class="glass-card" id="registrationForm" autocomplete="off" style="display:none;">
+      <div class="farm-header" id="farmHeaderForm">🚜🐂🌾 Application for working on Prahlad Sai's Farm</div>
+      <div class="notice" id="noticeText">
+        This registration is only for working on Prahlad Sai Farm.
+      </div>
+      <h2 id="formTitle">Worker Registration</h2>
+      <label id="labelName">Name:</label>
+      <input type="text" id="name" required autocomplete="off">
+
+      <label id="labelGender">Gender:</label>
+      <select id="gender" required>
+        <option value="" disabled selected>Select</option>
+        <option value="male" id="genderMale">Male</option>
+        <option value="female" id="genderFemale">Female</option>
+        <option value="other" id="genderOther">Other</option>
+      </select>
+
+      <label id="labelAge">Age:</label>
+      <input type="number" id="age" min="16" max="80" required>
+
+      <label id="labelMobile">Mobile Number:</label>
+      <input type="tel" id="mobile" pattern="[0-9]{10}" maxlength="10" required>
+
+      <label id="labelWorkBasis">Work Basis:</label>
+      <select id="workBasis" required>
+        <option value="" disabled selected>Select</option>
+        <option value="chouthiya" id="basisChouthiya">Chouthiya</option>
+        <option value="paanchiya" id="basisPaanchiya">Paanchiya</option>
+        <option value="dihadiya" id="basisDihadiya">Dihadiya</option>
+        <option value="theke" id="basisTheke">Theke pe (Contract)</option>
+      </select>
+
+      <label id="labelExperience">Experience (years):</label>
+      <input type="number" id="experience" min="0" max="60" required>
+
+      <label id="labelExpertise">Expertise (e.g., driving tractor, milking, ploughing, irrigation):</label>
+      <textarea id="expertise" required></textarea>
+
+      <label id="labelPrevBoss">Previously worked under who?</label>
+      <input type="text" id="prevBoss" required>
+
+      <label id="labelAddress">Village/Address:</label>
+      <input type="text" id="address" required>
+
+      <button type="submit" id="submitBtn">Submit</button>
+      <div class="success-message" id="successMsg"></div>
+    </form>
+
+    <div class="contact-box" id="contactBox">
+      <div class="farm-icons">📞🚜🐂</div>
+      <div><strong>Contact for Work:</strong></div>
+      <div class="contact-numbers">
+        <span>📱 <strong>Dikshant Sai:</strong> <a href="tel:7404153142" style="color:#388e3c;text-decoration:none;">7404153142</a><br>
+        📱 <strong>Prahlad Sai:</strong> <a href="tel:9416596771" style="color:#388e3c;text-decoration:none;">9416596771</a></span>
+      </div>
+      <div class="farm-address">
+        <span>🏡 <strong>Farm Address:</strong> Jandawalla Road, Nahar Ke Upar, Nuhiyanwali, Sirsa</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const translations = {
+      en: {
+        appHeader: "🚜🐂🌾 Application for working on Prahlad Sai's Farm",
+        notice: "This registration is only for working on Prahlad Sai Farm.",
+        formTitle: "Worker Registration - Prahlad Sai's Farm",
+        labelName: "Name:",
+        labelGender: "Gender:",
+        genderMale: "Male",
+        genderFemale: "Female",
+        genderOther: "Other",
+        labelAge: "Age:",
+        labelMobile: "Mobile Number:",
+        labelWorkBasis: "Work Basis:",
+        basisChouthiya: "Chouthiya",
+        basisPaanchiya: "Paanchiya",
+        basisDihadiya: "Dihadiya",
+        basisTheke: "Theke pe (Contract)",
+        labelExperience: "Experience (years):",
+        labelExpertise: "Expertise (e.g., driving tractor, milking, ploughing, irrigation):",
+        labelPrevBoss: "Previously worked under who?",
+        labelAddress: "Village/Address:",
+        submitBtn: "Submit",
+        success: "Registered Successfully! Thank you!",
+        error: "Please fill all fields correctly!"
+      },
+      hi: {
+        appHeader: "🚜🐂🌾 प्रह्लाद साई के खेत पर काम के लिए आवेदन",
+        notice: "यह पंजीकरण केवल प्रह्लाद साई के खेत पर काम के लिए है।",
+        formTitle: "प्रह्लाद साई के खेत पर काम के लिए पंजीकरण",
+        labelName: "नाम:",
+        labelGender: "लिंग:",
+        genderMale: "पुरुष",
+        genderFemale: "महिला",
+        genderOther: "अन्य",
+        labelAge: "आयु:",
+        labelMobile: "मोबाइल नंबर:",
+        labelWorkBasis: "काम का आधार:",
+        basisChouthiya: "चौथिया",
+        basisPaanchiya: "पांचिया",
+        basisDihadiya: "दिहाड़ीया",
+        basisTheke: "ठेके पर (Contract)",
+        labelExperience: "अनुभव (साल):",
+        labelExpertise: "विशेषज्ञता (जैसे ट्रैक्टर चलाना, दुग्ध निकालना, जुताई, सिंचाई):",
+        labelPrevBoss: "पहले किसके अधीन काम किया?",
+        labelAddress: "गांव/पता:",
+        submitBtn: "जमा करें",
+        success: "सफलतापूर्वक पंजीकृत! धन्यवाद!",
+        error: "कृपया सभी विवरण सही से भरें!"
+      },
+      pa: {
+        appHeader: "🚜🐂🌾 ਪਰਹਿਲਾਦ ਸਾਈ ਦੇ ਖੇਤ ਲਈ ਅਰਜ਼ੀ",
+        notice: "ਇਹ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਸਿਰਫ ਪਰਹਿਲਾਦ ਸਾਈ ਦੇ ਖੇਤ ਲਈ ਹੈ।",
+        formTitle: "ਪਰਹਿਲਾਦ ਸਾਈ ਦੇ ਖੇਤ ਲਈ ਮਜ਼ਦੂਰ ਦਰਜ ਕਰੋ",
+        labelName: "ਨਾਮ:",
+        labelGender: "ਲਿੰਗ:",
+        genderMale: "ਮਰਦ",
+        genderFemale: "ਔਰਤ",
+        genderOther: "ਹੋਰ",
+        labelAge: "ਉਮਰ:",
+        labelMobile: "ਮੋਬਾਈਲ ਨੰਬਰ:",
+        labelWorkBasis: "ਕੰਮ ਦਾ ਆਧਾਰ:",
+        basisChouthiya: "ਚੌਥੀਆ",
+        basisPaanchiya: "ਪਾਂਚੀਆ",
+        basisDihadiya: "ਦਿਹਾਡੀਆ",
+        basisTheke: "ਠੇਕੇ ਤੇ (Contract)",
+        labelExperience: "ਤਜਰਬਾ (ਸਾਲ):",
+        labelExpertise: "ਮਾਹਰਤਾ (ਜਿਵੇਂ ਟਰੈਕਟਰ ਚਲਾਉਣਾ, ਦੁੱਧ ਕੱਢਣਾ, ਹਲ ਚਲਾਉਣਾ, ਸਿੰਚਾਈ):",
+        labelPrevBoss: "ਪਹਿਲਾਂ ਕਿਸ ਦੇ ਹੇਠਾਂ ਕੰਮ ਕੀਤਾ?",
+        labelAddress: "ਪਿੰਡ/ਪਤਾ:",
+        submitBtn: "ਜਮ੍ਹਾਂ ਕਰੋ",
+        success: "ਸਫਲਤਾਪੂਰਵਕ ਦਰਜ ਕੀਤਾ ਗਿਆ! ਧੰਨਵਾਦ!",
+        error: "ਕਿਰਪਾ ਕਰਕੇ ਸਾਰੇ ਵੇਰਵੇ ਠੀਕ-ਠਾਕ ਭਰੋ!"
+      }
+    };
+
+    let selectedLang = 'en';
+
+    document.getElementById('languageSelect').addEventListener('change', function () {
+      selectedLang = this.value;
+      const text = translations[selectedLang];
+
+      document.getElementById('farmHeader').textContent = text.appHeader;
+      document.getElementById('farmHeaderForm').textContent = text.appHeader;
+      document.getElementById('noticeText').textContent = text.notice;
+      document.getElementById('formTitle').textContent = text.formTitle;
+      document.getElementById('labelName').textContent = text.labelName;
+      document.getElementById('labelGender').textContent = text.labelGender;
+      document.getElementById('genderMale').textContent = text.genderMale;
+      document.getElementById('genderFemale').textContent = text.genderFemale;
+      document.getElementById('genderOther').textContent = text.genderOther;
+      document.getElementById('labelAge').textContent = text.labelAge;
+      document.getElementById('labelMobile').textContent = text.labelMobile;
+      document.getElementById('labelWorkBasis').textContent = text.labelWorkBasis;
+      document.getElementById('basisChouthiya').textContent = text.basisChouthiya;
+      document.getElementById('basisPaanchiya').textContent = text.basisPaanchiya;
+      document.getElementById('basisDihadiya').textContent = text.basisDihadiya;
+      document.getElementById('basisTheke').textContent = text.basisTheke;
+      document.getElementById('labelExperience').textContent = text.labelExperience;
+      document.getElementById('labelExpertise').textContent = text.labelExpertise;
+      document.getElementById('labelPrevBoss').textContent = text.labelPrevBoss;
+      document.getElementById('labelAddress').textContent = text.labelAddress;
+      document.getElementById('submitBtn').textContent = text.submitBtn;
+
+      document.getElementById('langBox').style.display = 'none';
+      document.getElementById('registrationForm').style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+    });
+
+    document.getElementById('registrationForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const gender = document.getElementById('gender').value;
+      const age = parseInt(document.getElementById('age').value, 10);
+      const mobile = document.getElementById('mobile').value.trim();
+      const workBasis = document.getElementById('workBasis').value;
+      const experience = parseInt(document.getElementById('experience').value, 10);
+      const expertise = document.getElementById('expertise').value.trim();
+      const prevBoss = document.getElementById('prevBoss').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      if (!name || !gender || !age || age < 16 || age > 80 ||
+          !/^\d{10}$/.test(mobile) || !workBasis ||
+          isNaN(experience) || experience < 0 || experience > 60 ||
+          !expertise || !prevBoss || !address) {
+        showMessage('error');
+        return;
+      }
+
+      showMessage('success');
+      this.reset();
+    });
+
+    function showMessage(type) {
+      const msgBox = document.getElementById('successMsg');
+      msgBox.textContent = translations[selectedLang][type];
+      msgBox.style.background = type === 'success' ? '#d4edda' : '#fff3cd';
+      msgBox.style.color = type === 'success' ? '#155724' : '#856404';
+      msgBox.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
